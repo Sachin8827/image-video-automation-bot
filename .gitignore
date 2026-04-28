@@ -216,3 +216,17 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# -----------------------------------------------
+# Image-Video Automation Bot - custom ignores
+# -----------------------------------------------
+
+# Saved browser login session (contains auth tokens - NEVER commit)
+user-data/
+
+# Generated output files
+images/
+videos/
+
+# Log files
+logs/
