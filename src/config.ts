@@ -9,7 +9,13 @@ import fs from 'fs';
 // ------------------------------------------------------------------
 export const HEADLESS: boolean = false;
 export const SLOW_MO_MS: number = 50;
-export const USER_DATA_DIR: string = 'user-data';
+
+// Local folder to store your bot's login session
+// This keeps the bot separate from your personal Chrome so it won't crash!
+export const USER_DATA_DIR: string = path.resolve(process.cwd(), 'user-data');
+export const BROWSER_CHANNEL: string = 'chrome';
+
+
 
 // ------------------------------------------------------------------
 // Target URLs (your exact project/prompt URLs)
@@ -19,30 +25,35 @@ export const FLOW_URL: string =
 export const META_AI_URL: string =
   'https://www.meta.ai/prompt/ebb2627f-c66c-4aca-b946-2f6075ef9804';
 
+//535bbc8e-1e32-4542-ba0e-93cc266a9f3d
+
 // ------------------------------------------------------------------
+
 // File & folder paths
 // ------------------------------------------------------------------
 export const PROMPTS_FILE: string = 'prompts.json';
-export const IMAGES_DIR: string  = 'images';
-export const VIDEOS_DIR: string  = 'videos';
-export const LOGS_DIR: string    = 'logs';
+export const IMAGES_DIR: string = 'images';
+export const VIDEOS_DIR: string = 'videos';
+export const LOGS_DIR: string = 'logs';
 
 // ------------------------------------------------------------------
 // Retry & timeout settings
 // ------------------------------------------------------------------
-export const MAX_RETRIES: number        = 3;
-export const RETRY_DELAY_MS: number     = 5000;
-export const ELEMENT_TIMEOUT: number    = 30_000;
+export const MAX_RETRIES: number = 3;
+export const RETRY_DELAY_MS: number = 5000;
+export const ELEMENT_TIMEOUT: number = 30_000;
 export const GENERATION_TIMEOUT: number = 180_000;
-export const DOWNLOAD_TIMEOUT: number   = 60_000;
+export const DOWNLOAD_TIMEOUT: number = 60_000;
 
 // ------------------------------------------------------------------
 // Google Flow selectors (update if UI changes)
 // ------------------------------------------------------------------
 export const FLOW_PROMPT_INPUT_SELECTOR: string =
-  "textarea[placeholder*='prompt'], textarea[aria-label*='prompt']";
+  'div[data-slate-editor="true"], div[role="textbox"]';
+
 export const FLOW_GENERATE_BTN_SELECTOR: string =
-  "button[aria-label*='Generate'], button:has-text('Generate')";
+  "button:has-text('Create'), button:has(i:has-text('arrow_forward'))";
+
 export const FLOW_DONE_INDICATOR: string =
   "img[alt*='generated'], div[data-testid*='image-result']";
 export const FLOW_DOWNLOAD_BTN_SELECTOR: string =
@@ -66,5 +77,7 @@ export const META_VIDEO_DOWNLOAD_SELECTOR: string =
 // Ensure output directories exist at import time
 // ------------------------------------------------------------------
 for (const dir of [IMAGES_DIR, VIDEOS_DIR, LOGS_DIR, USER_DATA_DIR]) {
-  fs.mkdirSync(dir, { recursive: true });
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
 }

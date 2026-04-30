@@ -230,3 +230,4 @@ videos/
 
 # Log files
 logs/
+node_modules/

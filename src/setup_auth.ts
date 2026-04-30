@@ -16,7 +16,7 @@
 
 import { chromium } from 'playwright';
 import * as readline from 'readline';
-import { USER_DATA_DIR, FLOW_URL, META_AI_URL } from './config';
+import { USER_DATA_DIR, FLOW_URL, META_AI_URL, BROWSER_CHANNEL } from './config';
 
 function prompt(question: string): Promise<string> {
   const rl = readline.createInterface({
@@ -36,7 +36,9 @@ async function main(): Promise<void> {
   const context = await chromium.launchPersistentContext(USER_DATA_DIR, {
     headless: false,
     slowMo: 100,
-    viewport: { width: 1280, height: 800 },
+    channel: BROWSER_CHANNEL as any,
+    ignoreDefaultArgs: ['--enable-automation'],
+    args: ['--disable-blink-features=AutomationControlled']
   });
 
   const page = await context.newPage();

@@ -9,6 +9,7 @@
     "start": "node dist/bot.js",
     "dev": "ts-node src/bot.ts",
     "setup-auth": "ts-node src/setup_auth.ts",
+    "open-browser": "ts-node src/open_browser.ts",
     "dry-run": "ts-node src/bot.ts --dry-run"
   },
   "dependencies": {

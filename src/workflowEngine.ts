@@ -2,7 +2,7 @@
 // Orchestrates the full image -> video pipeline using Playwright.
 
 import { chromium, BrowserContext, Page } from 'playwright';
-import { USER_DATA_DIR, HEADLESS, SLOW_MO_MS, RETRY_DELAY_MS } from './config';
+import { USER_DATA_DIR, HEADLESS, SLOW_MO_MS, RETRY_DELAY_MS, BROWSER_CHANNEL } from './config';
 import { PromptLoader, Prompt } from './promptLoader';
 import { StatusTracker } from './statusTracker';
 import { ImageGenerator } from './imageGenerator';
@@ -22,12 +22,20 @@ export class WorkflowEngine {
       headless: HEADLESS,
       slowMo: SLOW_MO_MS,
       acceptDownloads: true,
-      viewport: { width: 1280, height: 800 },
+      channel: BROWSER_CHANNEL,
+      ignoreDefaultArgs: ['--enable-automation'],
+      args: ['--disable-blink-features=AutomationControlled']
     });
-    this.flowPage = await this.context.newPage();
+    // Reuse the first tab that Chrome opens automatically
+    const pages = this.context.pages();
+    this.flowPage = pages.length > 0 ? pages[0] : await this.context.newPage();
+    
+    // Open a second tab for Meta (even though we have it commented out, this keeps the structure)
     this.metaPage = await this.context.newPage();
-    logger.info('Browser launched with persistent session (user-data/)');
+    
+    logger.info('Browser launched. Using the first tab for Google Flow.');
   }
+
 
   private async stopBrowser(): Promise<void> {
     if (this.context) {
@@ -89,6 +97,7 @@ export class WorkflowEngine {
       logger.info('Phase 1: No pending image tasks');
     }
 
+    /* 
     // Phase 2: Video generation
     const videoPrompts = this.loader.getPendingVideoPrompts();
     if (videoPrompts.length) {
@@ -105,6 +114,8 @@ export class WorkflowEngine {
     } else {
       logger.info('Phase 2: No pending video tasks');
     }
+    */
+
   }
 
   async run(): Promise<void> {
