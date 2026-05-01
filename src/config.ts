@@ -52,12 +52,24 @@ export const FLOW_PROMPT_INPUT_SELECTOR: string =
   'div[data-slate-editor="true"], div[role="textbox"]';
 
 export const FLOW_GENERATE_BTN_SELECTOR: string =
-  "button:has-text('Create'), button:has(i:has-text('arrow_forward'))";
+  "button:has(i:has-text('arrow_forward'))";
 
 export const FLOW_DONE_INDICATOR: string =
-  "img[alt*='generated'], div[data-testid*='image-result']";
+  "div[data-tile-id] img[alt='Generated image']";
+
+export const FLOW_MODAL_DOWNLOAD_BTN: string =
+  "button:has-text('Download'), button:has(i:has-text('download'))";
+
+export const FLOW_QUALITY_1K_BTN: string =
+  "button[role='menuitem']:has-text('1K')";
+
+export const FLOW_BACK_BTN_SELECTOR: string =
+  "button:has-text('Back'), button:has(i:has-text('arrow_back'))";
+
 export const FLOW_DOWNLOAD_BTN_SELECTOR: string =
+
   "button[aria-label*='Download'], button[title*='Download']";
+
 
 // ------------------------------------------------------------------
 // Meta AI selectors (update if UI changes)
