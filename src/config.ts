@@ -23,11 +23,13 @@ export const BROWSER_CHANNEL: string = 'chrome';
 export const FLOW_URL: string =
   'https://labs.google/fx/tools/flow/project/35e24640-8b62-415e-955b-d1643edd62d5';
 export const META_AI_URL: string =
-  'https://www.meta.ai/prompt/ebb2627f-c66c-4aca-b946-2f6075ef9804';
+  'https://www.meta.ai/prompt/bd583c98-586e-4f30-8b60-c3cf6cd4de9e';
 
-//535bbc8e-1e32-4542-ba0e-93cc266a9f3d
+//535bbc8e-1e32-4542-ba0e-93cc266a9f3d flow
+//ebb2627f-c66c-4aca-b946-2f6075ef9804 meta
 
 // ------------------------------------------------------------------
+
 
 // File & folder paths
 // ------------------------------------------------------------------
@@ -75,7 +77,9 @@ export const FLOW_DOWNLOAD_BTN_SELECTOR: string =
 // Meta AI selectors (update if UI changes)
 // ------------------------------------------------------------------
 export const META_PROMPT_INPUT_SELECTOR: string =
-  "div[contenteditable='true'], textarea[placeholder*='message']";
+  "[data-testid='composer-input'], div[contenteditable='true'], textarea[placeholder*='Describe']";
+
+
 export const META_UPLOAD_BTN_SELECTOR: string =
   "input[type='file'], button[aria-label*='attach']";
 export const META_SEND_BTN_SELECTOR: string =

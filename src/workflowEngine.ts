@@ -26,6 +26,11 @@ export class WorkflowEngine {
       ignoreDefaultArgs: ['--enable-automation'],
       args: ['--disable-blink-features=AutomationControlled']
     });
+
+    // Hardening: Hide webdriver flag completely
+    await this.context.addInitScript("Object.defineProperty(navigator, 'webdriver', { get: () => undefined });");
+
+
     // Reuse the first tab that Chrome opens automatically
     const pages = this.context.pages();
     this.flowPage = pages.length > 0 ? pages[0] : await this.context.newPage();
@@ -33,8 +38,9 @@ export class WorkflowEngine {
     // Open a second tab for Meta (even though we have it commented out, this keeps the structure)
     this.metaPage = await this.context.newPage();
     
-    logger.info('Browser launched. Using the first tab for Google Flow.');
+    logger.info('Browser launched with stealth hardening.');
   }
+
 
 
   private async stopBrowser(): Promise<void> {
@@ -91,13 +97,17 @@ export class WorkflowEngine {
           logger.warn(`[ID:${prompt.id}] Skipping video (image failed)`);
           continue;
         }
-        await this.sleep(RETRY_DELAY_MS);
+        
+        // Hardening: Random delay between prompts (10-25s)
+        const delay = Math.floor(Math.random() * 15_000) + 10_000;
+        logger.info(`Waiting ${delay / 1000}s before next prompt to remain stealthy...`);
+        await this.sleep(delay);
       }
+
     } else {
       logger.info('Phase 1: No pending image tasks');
     }
 
-    /* 
     // Phase 2: Video generation
     const videoPrompts = this.loader.getPendingVideoPrompts();
     if (videoPrompts.length) {
@@ -114,7 +124,7 @@ export class WorkflowEngine {
     } else {
       logger.info('Phase 2: No pending video tasks');
     }
-    */
+
 
   }
 

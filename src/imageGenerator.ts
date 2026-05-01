@@ -59,9 +59,11 @@ export class ImageGenerator {
     await this.page.keyboard.press('Control+A');
     await this.page.keyboard.press('Backspace');
 
-    // Type the new prompt
-    await this.page.keyboard.type(imagePrompt, { delay: 20 });
-    logger.info(`[ID:${id}] Success: Prompt typed via keyboard.`);
+    // Type the new prompt with random human-like speed (40-120ms per char)
+    const typingDelay = Math.random() * 80 + 40;
+    await this.page.keyboard.type(imagePrompt, { delay: typingDelay });
+    logger.info(`[ID:${id}] Success: Prompt typed with ${Math.round(typingDelay)}ms speed.`);
+
 
 
     // Step 4: Click Generate (but count images first!)

@@ -4,41 +4,41 @@
     "image_prompt": "A futuristic city skyline at sunset with flying cars and neon lights reflecting on wet streets",
     "animation_prompt": "Camera slowly pans left across the skyline, neon signs flicker, rain falls gently",
     "image_status": "success",
-    "video_status": "pending",
+    "video_status": "failed",
     "image_retries": 0,
-    "video_retries": 0,
+    "video_retries": 2,
     "image_path": "images\\1.png",
     "video_path": null,
     "image_error": null,
-    "video_error": null,
-    "last_updated": "2026-05-01T02:52:07.758Z"
+    "video_error": "TimeoutError: page.waitForSelector: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('textarea[data-testid=\\'composer-input\\']') to be visible\u001b[22m\n\u001b[2m    60 × locator resolved to hidden <textarea autofocus=\"\" data-testid=\"composer-input\" placeholder=\"Describe an image or video...\" class=\"h-full w-full resize-none border-0 bg-transparent p-0 outline-none \"></textarea>\u001b[22m\n",
+    "last_updated": "2026-05-01T03:39:02.645Z"
   },
   {
     "id": 2,
     "image_prompt": "An ancient forest with giant glowing mushrooms and fireflies dancing between the trees at night",
     "animation_prompt": "Fireflies drift upward slowly, mushrooms pulse with soft light, mist rolls across the ground",
     "image_status": "success",
-    "video_status": "pending",
+    "video_status": "failed",
     "image_retries": 0,
-    "video_retries": 0,
+    "video_retries": 1,
     "image_path": "images\\2.png",
     "video_path": null,
     "image_error": null,
-    "video_error": null,
-    "last_updated": "2026-05-01T02:53:27.183Z"
+    "video_error": "TimeoutError: page.waitForSelector: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('textarea[data-testid=\\'composer-input\\']') to be visible\u001b[22m\n\u001b[2m    61 × locator resolved to hidden <textarea autofocus=\"\" data-testid=\"composer-input\" placeholder=\"Describe an image or video...\" class=\"h-full w-full resize-none border-0 bg-transparent p-0 outline-none \"></textarea>\u001b[22m\n",
+    "last_updated": "2026-05-01T03:39:39.183Z"
   },
   {
     "id": 3,
     "image_prompt": "A lone astronaut standing on Mars surface looking at Earth rising over the red horizon",
     "animation_prompt": "Earth slowly rises above the horizon, dust particles float in the thin atmosphere, astronaut turns to face it",
     "image_status": "success",
-    "video_status": "pending",
+    "video_status": "failed",
     "image_retries": 0,
-    "video_retries": 0,
+    "video_retries": 1,
     "image_path": "images\\3.png",
     "video_path": null,
     "image_error": null,
-    "video_error": null,
-    "last_updated": "2026-05-01T02:54:46.360Z"
+    "video_error": "TimeoutError: page.waitForSelector: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('textarea[data-testid=\\'composer-input\\']') to be visible\u001b[22m\n\u001b[2m    61 × locator resolved to hidden <textarea autofocus=\"\" data-testid=\"composer-input\" placeholder=\"Describe an image or video...\" class=\"h-full w-full resize-none border-0 bg-transparent p-0 outline-none \"></textarea>\u001b[22m\n",
+    "last_updated": "2026-05-01T03:40:16.589Z"
   }
 ]

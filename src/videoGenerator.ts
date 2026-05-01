@@ -34,6 +34,9 @@ export class VideoGenerator {
       throw new Error(`[ID:${id}] Image not found: ${imagePath}`);
     }
 
+    // Bring the Meta AI tab to the foreground
+    await this.page.bringToFront();
+
     // Step 1: Navigate to /prompt/ URL (fresh conversation every time)
     await this.page.goto(META_AI_URL, { waitUntil: 'domcontentloaded' });
     logger.debug(`[ID:${id}] Navigated to Meta AI prompt URL`);
@@ -46,19 +49,23 @@ export class VideoGenerator {
     // Step 3: Upload the image
     await this.uploadImage(id, imagePath);
 
-    // Step 4: Type animation prompt
+    // Step 4: Type animation prompt with random human speed
     const promptInput = await this.page.$(META_PROMPT_INPUT_SELECTOR);
     if (!promptInput) throw new Error(`[ID:${id}] Prompt input not found`);
+    
+    logger.info(`[ID:${id}] Typing animation prompt...`);
     await promptInput.click();
-    await promptInput.type(animationPrompt);
-    logger.debug(`[ID:${id}] Animation prompt typed: ${animationPrompt.slice(0, 60)}...`);
+    
+    const typingDelay = Math.random() * 80 + 40;
+    await this.page.keyboard.type(animationPrompt, { delay: typingDelay });
+    logger.info(`[ID:${id}] Success: Prompt typed at ${Math.round(typingDelay)}ms.`);
 
-    // Step 5: Send the message
-    const sendBtn = await this.page.waitForSelector(META_SEND_BTN_SELECTOR, {
-      timeout: ELEMENT_TIMEOUT,
-    });
-    await sendBtn!.click();
+
+    // Step 5: Send the message (Hit Enter)
+    logger.info(`[ID:${id}] Hitting Enter to generate video...`);
+    await this.page.keyboard.press('Enter');
     logger.info(`[ID:${id}] Message sent, waiting for video generation...`);
+
 
     // Step 6: Wait for video element to appear
     await this.page.waitForSelector(META_VIDEO_DONE_SELECTOR, {
