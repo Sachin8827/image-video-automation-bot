@@ -77,7 +77,8 @@ export const FLOW_DOWNLOAD_BTN_SELECTOR: string =
 // Meta AI selectors (update if UI changes)
 // ------------------------------------------------------------------
 export const META_PROMPT_INPUT_SELECTOR: string =
-  "[data-testid='composer-input'], div[contenteditable='true'], textarea[placeholder*='Describe']";
+  "[data-testid='composer-input']:visible, div[contenteditable='true']:visible, [placeholder*='Describe']:visible";
+
 
 
 export const META_UPLOAD_BTN_SELECTOR: string =
