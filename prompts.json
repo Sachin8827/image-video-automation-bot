@@ -3,28 +3,28 @@
     "id": 1,
     "image_prompt": "A neon-lit rainy alley in a cyberpunk city with reflections on wet pavement and distant glowing billboards",
     "animation_prompt": "Rain falls steadily in the alley, neon reflections ripple on wet pavement, distant billboards flicker, slight camera push forward",
-    "image_status": "pending",
-    "video_status": "pending",
+    "image_status": "success",
+    "video_status": "success",
     "image_retries": 0,
     "video_retries": 0,
-    "image_path": null,
-    "video_path": null,
+    "image_path": "images\\1.png",
+    "video_path": "videos\\1.mp4",
     "image_error": null,
     "video_error": null,
-    "last_updated": null
+    "last_updated": "2026-05-02T03:30:38.497Z"
   },
   {
     "id": 2,
     "image_prompt": "A serene lake at sunrise with mountains in the background and a small wooden boat floating on calm water",
     "animation_prompt": "Soft sunrise light spreads across the lake, water gently ripples around the boat, mist drifts over the surface, birds fly in the distance",
-    "image_status": "pending",
-    "video_status": "pending",
+    "image_status": "success",
+    "video_status": "success",
     "image_retries": 0,
     "video_retries": 0,
-    "image_path": null,
-    "video_path": null,
+    "image_path": "images\\2.png",
+    "video_path": "videos\\2.mp4",
     "image_error": null,
     "video_error": null,
-    "last_updated": null
+    "last_updated": "2026-05-02T03:32:46.243Z"
   }
 ]

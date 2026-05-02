@@ -59,10 +59,11 @@ export class ImageGenerator {
     await this.page.keyboard.press('Control+A');
     await this.page.keyboard.press('Backspace');
 
-    // Type the new prompt with random human-like speed (40-120ms per char)
-    const typingDelay = Math.random() * 80 + 40;
-    await this.page.keyboard.type(imagePrompt, { delay: typingDelay });
-    logger.info(`[ID:${id}] Success: Prompt typed with ${Math.round(typingDelay)}ms speed.`);
+    // Type the new prompt with rhythmic human-like delay
+    logger.info(`[ID:${id}] Typing prompt with human-like rhythm...`);
+    await this.humanType(imagePrompt);
+    logger.info(`[ID:${id}] Success: Prompt typed.`);
+
 
 
 
@@ -75,8 +76,9 @@ export class ImageGenerator {
       FLOW_GENERATE_BTN_SELECTOR,
       { timeout: ELEMENT_TIMEOUT }
     );
-    logger.info(`[ID:${id}] Found Generate button! Clicking now...`);
-    await generateBtn!.click();
+    logger.info(`[ID:${id}] Found Generate button! Moving mouse and clicking...`);
+    await this.humanMoveAndClick(FLOW_GENERATE_BTN_SELECTOR);
+
 
     // Step 5: Wait for a NEW generated image to appear
     logger.info(`[ID:${id}] Generate clicked. Waiting up to ${GENERATION_TIMEOUT / 1000}s for a new image...`);
@@ -144,5 +146,40 @@ export class ImageGenerator {
 
   }
 
+  private async humanType(text: string): Promise<void> {
+    for (const char of text) {
+      await this.page.keyboard.type(char, { delay: 0 });
+      // Rhythmic typing: longer pause for punctuation/spaces
+      const pause = [' ', '.', ',', '!'].includes(char)
+        ? Math.random() * 300 + 150
+        : Math.random() * 80 + 30;
+      await this.page.waitForTimeout(pause);
+    }
+  }
+
+  private async humanMoveAndClick(selector: string): Promise<void> {
+    const element = await this.page.waitForSelector(selector);
+    const box = await element.boundingBox();
+    if (box) {
+      const centerX = box.x + box.width / 2;
+      const centerY = box.y + box.height / 2;
+      
+      // Perform 2-3 random jitter movements near the target
+      const jitters = Math.floor(Math.random() * 2) + 2;
+      for (let i = 0; i < jitters; i++) {
+        await this.page.mouse.move(
+          centerX + (Math.random() * 40 - 20),
+          centerY + (Math.random() * 40 - 20),
+          { steps: 5 }
+        );
+        await this.page.waitForTimeout(Math.random() * 150 + 50);
+      }
+      
+      await this.page.mouse.click(centerX, centerY);
+    } else {
+      await element.click();
+    }
+  }
 
 }
+

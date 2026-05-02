@@ -61,9 +61,10 @@ export class VideoGenerator {
     logger.info(`[ID:${id}] Typing animation prompt...`);
     await promptInput.click();
     
-    const typingDelay = Math.random() * 80 + 40;
-    await this.page.keyboard.type(animationPrompt, { delay: typingDelay });
-    logger.info(`[ID:${id}] Success: Prompt typed at ${Math.round(typingDelay)}ms.`);
+    logger.info(`[ID:${id}] Typing animation prompt with human-like rhythm...`);
+    await this.humanType(animationPrompt);
+    logger.info(`[ID:${id}] Success: Prompt typed.`);
+
 
 
     // Step 5: Send the message (Hit Enter)
@@ -74,10 +75,11 @@ export class VideoGenerator {
     logger.info(`[ID:${id}] Waiting 20s before scrolling...`);
     await this.page.waitForTimeout(20_000);
 
-    // Scroll to bottom
-    logger.info(`[ID:${id}] Scrolling to bottom and finishing stabilization wait (50s)...`);
-    await this.page.evaluate("window.scrollTo(0, document.body.scrollHeight)");
+    // Scroll to bottom human-style
+    logger.info(`[ID:${id}] Scrolling to bottom human-style and finishing stabilization wait (50s)...`);
+    await this.humanScroll();
     await this.page.waitForTimeout(50_000);
+
 
     logger.info(`[ID:${id}] Wait complete. Checking for video...`);
 
@@ -151,4 +153,52 @@ export class VideoGenerator {
     return path;
   }
 
+  private async humanType(text: string): Promise<void> {
+    for (const char of text) {
+      await this.page.keyboard.type(char, { delay: 0 });
+      // Rhythmic typing: longer pause for punctuation/spaces
+      const pause = [' ', '.', ',', '!'].includes(char)
+        ? Math.random() * 300 + 150
+        : Math.random() * 80 + 30;
+      await this.page.waitForTimeout(pause);
+    }
+  }
+
+  private async humanMoveAndClick(selector: string): Promise<void> {
+    const element = await this.page.waitForSelector(selector);
+    const box = await element.boundingBox();
+    if (box) {
+      const centerX = box.x + box.width / 2;
+      const centerY = box.y + box.height / 2;
+      
+      // Perform 2-3 random jitter movements near the target
+      const jitters = Math.floor(Math.random() * 2) + 2;
+      for (let i = 0; i < jitters; i++) {
+        await this.page.mouse.move(
+          centerX + (Math.random() * 40 - 20),
+          centerY + (Math.random() * 40 - 20),
+          { steps: 5 }
+        );
+        await this.page.waitForTimeout(Math.random() * 150 + 50);
+      }
+      
+      await this.page.mouse.click(centerX, centerY);
+    } else {
+      await element.click();
+    }
+  }
+
+  private async humanScroll(): Promise<void> {
+    const scrollHeight = (await this.page.evaluate("document.body.scrollHeight")) as number;
+    let current = 0;
+
+    while (current < scrollHeight) {
+      const step = Math.floor(Math.random() * 300) + 100;
+      current += step;
+      await this.page.evaluate(`window.scrollTo(0, ${current})`);
+      await this.page.waitForTimeout(Math.random() * 500 + 200);
+    }
+  }
+
 }
+
