@@ -106,12 +106,13 @@ export class ImageGenerator {
 
 
   private async downloadLatestImage(id: number): Promise<string> {
-    logger.info(`[ID:${id}] Step 1: Clicking the newest image tile...`);
+    logger.info(`[ID:${id}] Step 1: Clicking the newest image tile (index 0)...`);
     const tiles = await this.page.$$(FLOW_DONE_INDICATOR);
     if (!tiles.length) throw new Error(`[ID:${id}] No image tiles found to click.`);
 
-    // Click the last (most recent) tile
-    await tiles[tiles.length - 1].click();
+    // Click the FIRST tile (newest generation appears at the top/start)
+    await tiles[0].click();
+
 
     logger.info(`[ID:${id}] Step 2 & 3: Waiting for modal and clicking Download button...`);
     const modalDownloadBtn = await this.page.waitForSelector(FLOW_MODAL_DOWNLOAD_BTN, {

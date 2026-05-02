@@ -1,23 +1,9 @@
 [
   {
     "id": 1,
-    "image_prompt": "A futuristic city skyline at sunset with flying cars and neon lights reflecting on wet streets",
-    "animation_prompt": "Flying cars glide between neon-lit skyscrapers, reflections ripple on wet streets, light rain falls, cinematic sunset glow",
-    "image_status": "success",
-    "video_status": "pending",
-    "image_retries": 0,
-    "video_retries": 0,
-    "image_path": "images\\1.png",
-    "video_path": null,
-    "image_error": null,
-    "video_error": null,
-    "last_updated": "2026-05-02T02:49:36.310Z"
-  },
-  {
-    "id": 2,
-    "image_prompt": "An ancient forest with giant glowing mushrooms and fireflies dancing between the trees at night",
-    "animation_prompt": "Fireflies swirl between trees, glowing mushrooms softly pulse, light mist drifts through the forest at night",
-    "image_status": "in_progress",
+    "image_prompt": "A neon-lit rainy alley in a cyberpunk city with reflections on wet pavement and distant glowing billboards",
+    "animation_prompt": "Rain falls steadily in the alley, neon reflections ripple on wet pavement, distant billboards flicker, slight camera push forward",
+    "image_status": "pending",
     "video_status": "pending",
     "image_retries": 0,
     "video_retries": 0,
@@ -25,12 +11,12 @@
     "video_path": null,
     "image_error": null,
     "video_error": null,
-    "last_updated": "2026-05-02T02:49:48.664Z"
+    "last_updated": null
   },
   {
-    "id": 3,
-    "image_prompt": "A lone astronaut standing on Mars surface looking at Earth rising over the red horizon",
-    "animation_prompt": "Earth slowly rises over the Martian horizon, dust particles float in thin atmosphere, astronaut subtly turns toward Earth",
+    "id": 2,
+    "image_prompt": "A serene lake at sunrise with mountains in the background and a small wooden boat floating on calm water",
+    "animation_prompt": "Soft sunrise light spreads across the lake, water gently ripples around the boat, mist drifts over the surface, birds fly in the distance",
     "image_status": "pending",
     "video_status": "pending",
     "image_retries": 0,
