@@ -86,9 +86,11 @@ export const META_UPLOAD_BTN_SELECTOR: string =
 export const META_SEND_BTN_SELECTOR: string =
   "button[aria-label*='Send'], button[type='submit']";
 export const META_VIDEO_DONE_SELECTOR: string =
-  "video, div[data-testid*='video-result']";
+  "a[aria-label='View media'], div[data-testid='generated-video'], div.group\\/media-item";
+
 export const META_VIDEO_DOWNLOAD_SELECTOR: string =
-  "button[aria-label*='Download'], a[download]";
+  "button[aria-label='Download']";
+
 
 // ------------------------------------------------------------------
 // Ensure output directories exist at import time

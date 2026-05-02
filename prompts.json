@@ -2,7 +2,7 @@
   {
     "id": 1,
     "image_prompt": "A futuristic city skyline at sunset with flying cars and neon lights reflecting on wet streets",
-    "animation_prompt": "Camera slowly pans left across the skyline, neon signs flicker, rain falls gently",
+    "animation_prompt": "Flying cars glide between neon-lit skyscrapers, reflections ripple on wet streets, light rain falls, cinematic sunset glow",
     "image_status": "success",
     "video_status": "pending",
     "image_retries": 0,
@@ -11,34 +11,34 @@
     "video_path": null,
     "image_error": null,
     "video_error": null,
-    "last_updated": "2026-05-01T03:42:28.900Z"
+    "last_updated": "2026-05-02T02:49:36.310Z"
   },
   {
     "id": 2,
     "image_prompt": "An ancient forest with giant glowing mushrooms and fireflies dancing between the trees at night",
-    "animation_prompt": "Fireflies drift upward slowly, mushrooms pulse with soft light, mist rolls across the ground",
-    "image_status": "success",
+    "animation_prompt": "Fireflies swirl between trees, glowing mushrooms softly pulse, light mist drifts through the forest at night",
+    "image_status": "in_progress",
     "video_status": "pending",
     "image_retries": 0,
     "video_retries": 0,
-    "image_path": "images\\2.png",
+    "image_path": null,
     "video_path": null,
     "image_error": null,
     "video_error": null,
-    "last_updated": "2026-05-01T03:42:33.903Z"
+    "last_updated": "2026-05-02T02:49:48.664Z"
   },
   {
     "id": 3,
     "image_prompt": "A lone astronaut standing on Mars surface looking at Earth rising over the red horizon",
-    "animation_prompt": "Earth slowly rises above the horizon, dust particles float in the thin atmosphere, astronaut turns to face it",
-    "image_status": "success",
+    "animation_prompt": "Earth slowly rises over the Martian horizon, dust particles float in thin atmosphere, astronaut subtly turns toward Earth",
+    "image_status": "pending",
     "video_status": "pending",
     "image_retries": 0,
     "video_retries": 0,
-    "image_path": "images\\3.png",
+    "image_path": null,
     "video_path": null,
     "image_error": null,
     "video_error": null,
-    "last_updated": "2026-05-01T03:40:16.589Z"
+    "last_updated": null
   }
 ]

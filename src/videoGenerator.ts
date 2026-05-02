@@ -37,14 +37,19 @@ export class VideoGenerator {
     // Bring the Meta AI tab to the foreground
     await this.page.bringToFront();
 
-    // Step 1: Navigate to /prompt/ URL (fresh conversation every time)
-    await this.page.goto(META_AI_URL, { waitUntil: 'domcontentloaded' });
-    logger.debug(`[ID:${id}] Navigated to Meta AI prompt URL`);
+    // Step 1: Navigate to /prompt/ URL (only if not already there)
+    if (this.page.url() !== META_AI_URL) {
+      logger.debug(`[ID:${id}] Navigating to Meta AI prompt URL...`);
+      await this.page.goto(META_AI_URL, { waitUntil: 'domcontentloaded' });
+    } else {
+      logger.info(`[ID:${id}] Already on Meta AI, skipping navigation.`);
+    }
 
     // Step 2: Wait for input area
     await this.page.waitForSelector(META_PROMPT_INPUT_SELECTOR, {
       timeout: ELEMENT_TIMEOUT,
     });
+
 
     // Step 3: Upload the image
     await this.uploadImage(id, imagePath);
@@ -64,7 +69,19 @@ export class VideoGenerator {
     // Step 5: Send the message (Hit Enter)
     logger.info(`[ID:${id}] Hitting Enter to generate video...`);
     await this.page.keyboard.press('Enter');
-    logger.info(`[ID:${id}] Message sent, waiting for video generation...`);
+    
+    // Wait 20s before scrolling
+    logger.info(`[ID:${id}] Waiting 20s before scrolling...`);
+    await this.page.waitForTimeout(20_000);
+
+    // Scroll to bottom
+    logger.info(`[ID:${id}] Scrolling to bottom and finishing stabilization wait (50s)...`);
+    await this.page.evaluate("window.scrollTo(0, document.body.scrollHeight)");
+    await this.page.waitForTimeout(50_000);
+
+    logger.info(`[ID:${id}] Wait complete. Checking for video...`);
+
+
 
 
     // Step 6: Wait for video element to appear
@@ -78,37 +95,60 @@ export class VideoGenerator {
   }
 
   private async uploadImage(id: number, imagePath: string): Promise<void> {
-    // Try clicking upload button if present
-    const uploadBtn = await this.page.$(
-      "button[aria-label*='attach'], button[aria-label*='image'], button[aria-label*='upload']"
-    );
-    if (uploadBtn) {
-      await uploadBtn.click();
-      await this.page.waitForTimeout(500);
-    }
-
-    // Set file on the hidden file input
+    // Set file directly on the hidden file input without clicking the button
+    // This prevents the OS-level file picker dialog from opening.
     const fileInput = await this.page.$(`input[type='file']`);
     if (fileInput) {
       await fileInput.setInputFiles(imagePath);
-      logger.info(`[ID:${id}] Image uploaded: ${imagePath}`);
+      logger.info(`[ID:${id}] Image uploaded directly to file input: ${imagePath}`);
     } else {
-      logger.warn(`[ID:${id}] No file input found - image upload may fail`);
+      logger.warn(`[ID:${id}] No file input found - trying fallback click...`);
+      // Fallback: only click if no input is found (rare)
+      const uploadBtn = await this.page.$(
+        "button[aria-label*='attach'], button[aria-label*='image'], button[aria-label*='upload']"
+      );
+      if (uploadBtn) await uploadBtn.click();
     }
     await this.page.waitForTimeout(1000);
   }
 
+
   private async downloadVideo(id: number): Promise<string> {
-    const downloadBtn = await this.page.waitForSelector(
-      META_VIDEO_DOWNLOAD_SELECTOR,
-      { timeout: ELEMENT_TIMEOUT }
-    );
+    logger.info(`[ID:${id}] Step 7: Downloading video...`);
+
+    // Find all media items/videos
+    const videos = await this.page.$$(META_VIDEO_DONE_SELECTOR);
+    if (!videos.length) {
+      throw new Error(`[ID:${id}] No video elements found for download.`);
+    }
+
+    // Hover over the last one to show the download button
+    const latestVideo = videos[videos.length - 1];
+    logger.info(`[ID:${id}] Scrolling video into view and hovering...`);
+    await latestVideo.scrollIntoViewIfNeeded();
+    await latestVideo.hover();
+
+    
+    // Small wait for UI to respond to hover
+    await this.page.waitForTimeout(1000);
+
+    // Find and click the download button (pick the last one if multiple exist)
+    const downloadBtns = await this.page.$$(META_VIDEO_DOWNLOAD_SELECTOR);
+    if (!downloadBtns.length) {
+      throw new Error(`[ID:${id}] Download button did not appear after hover.`);
+    }
+
+    const latestDownloadBtn = downloadBtns[downloadBtns.length - 1];
+    logger.info(`[ID:${id}] Clicking download button...`);
 
     const [download] = await Promise.all([
       this.page.waitForEvent('download', { timeout: DOWNLOAD_TIMEOUT }),
-      downloadBtn!.click(),
+      latestDownloadBtn.click(),
     ]);
 
-    return await Downloader.saveVideo(download, id);
+    const path = await Downloader.saveVideo(download, id);
+    logger.info(`[ID:${id}] SUCCESS: Video saved to: ${path}`);
+    return path;
   }
+
 }
